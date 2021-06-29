@@ -405,11 +405,11 @@ contract Morphose  {
         );
 
         withdrawn[args.unitNullifier] = true;
-        currentUnits--;
-
-        if (currentUnits == 0) {
+        
+        if (currentUnits-- == 0) {
             anonymitySet = 0;
         }
+
 
         args.recipent.transfer(denomination - onePercent(denomination));
         payable(0x3e4Ff40a827d4Ede5336Fd49fBCbfe02c6530375).transfer(onePercent(denomination));//%1 to treasury
