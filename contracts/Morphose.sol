@@ -447,6 +447,11 @@ contract Morphose  {
         bytes32 unitNullifier,
         bytes32 context
     ) internal view returns (bool) {
+        require(proof.length == 8, "Invalid proof"); 
+        require(uint256(merkleRoot) < BN128_SCALAR_FIELD, "Invalid merkleRoot");
+        require(uint256(unitNullifier) < BN128_SCALAR_FIELD, "Invalid unitNullifier");
+        require(uint256(context) < BN128_SCALAR_FIELD, "Invalid context");
+        
         uint256[2] memory a = [uint256(proof[0]), uint256(proof[1])];
         uint256[2][2] memory b =
             [
