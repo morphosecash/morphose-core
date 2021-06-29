@@ -366,6 +366,7 @@ contract Morphose  {
     ) {
         verifier = MembershipVerifier(verifierAddr);
         merkleTree.hasher = Morph(morphAddr);
+        require(denomination_ != 0, "Value cannot be zero");
         denomination = denomination_;
     }
 
