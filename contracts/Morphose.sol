@@ -362,12 +362,14 @@ contract Morphose  {
     constructor(
         address morphAddr,
         address verifierAddr,
-        uint256 denomination_
+        uint256 denomination_,
+        address commAddr_
     ) {
         verifier = MembershipVerifier(verifierAddr);
         merkleTree.hasher = Morph(morphAddr);
         require(denomination_ != 0, "Value cannot be zero");
         denomination = denomination_;
+        commAddr = commAddr_;
     }
 
     function deposit(bytes32 note) public payable {
@@ -410,9 +412,9 @@ contract Morphose  {
             anonymitySet = 0;
         }
 
-
-        args.recipent.transfer(denomination - onePercent(denomination));
-        payable(0x3e4Ff40a827d4Ede5336Fd49fBCbfe02c6530375).transfer(onePercent(denomination));//%1 to treasury
+        uint256 commission = SafeMath.div(denomination, 100);
+        args.recipent.transfer(denomination - commission);
+        payable(commAddr).transfer(commission);
         emit Withdrawal(args.unitNullifier);
     }
 
@@ -429,12 +431,6 @@ contract Morphose  {
         address relayer
     ) public pure returns (bytes32) {
         return keccak256(abi.encode(recipent, relayer)) >> 3;
-    }
-
-    function onePercent(uint256 _value) public view returns (uint256)  {
-        uint256 roundValue = SafeMath.ceil(_value, 100);
-        uint256 onePercent = SafeMath.div(SafeMath.mul(roundValue, 100), 10000);
-        return onePercent;
     }
 
     function maxSlots() public pure returns (uint256) {
