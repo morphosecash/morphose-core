@@ -379,6 +379,7 @@ contract Morphose  {
         );
 
         uint256 units = msg.value / denomination;
+        require(units < BN128_SCALAR_FIELD);
         bytes32 leaf = merkleTree.hasher.poseidon([note, bytes32(units)]);
         uint256 index = merkleTree.insert(leaf);
         currentUnits += units;
