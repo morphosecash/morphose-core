@@ -352,7 +352,7 @@ contract Morphose  {
     MembershipVerifier internal verifier;
     MerkleTree.Data internal merkleTree;
     mapping(bytes32 => bool) public withdrawn;
-    uint256 public denomination;
+    uint256 public immutable denomination;
     uint256 public currentUnits;
     uint256 public anonymitySet;
 
