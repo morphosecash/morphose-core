@@ -500,8 +500,8 @@ contract MorphoseAdmin {
         _;
     }
 
-    function createMorphose(uint256 denomination) public restricted {
-        Morphose newMorphose = new Morphose(morph, verifier, denomination);
+    function createMorphose(uint256 denomination, address commmAdd) public restricted {
+        Morphose newMorphose = new Morphose(morph, verifier, denomination,commmAdd);
         Entry storage entry = morphoses[denomination];
 
         if (entry.addr == address(0)) {
